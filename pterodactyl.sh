@@ -334,9 +334,6 @@ os_detect_and_execute() {
                 Ubuntu)
                     ubuntu_tasks
                     ;;
-                CentOS 8)
-                    centos_tasks8
-                    ;;
                 CentOS)
                     version=$(lsb_release -sr | cut -d. -f1)
                     case "$version" in
