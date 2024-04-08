@@ -1,6 +1,16 @@
 #!/bin/bash
 
 
+display_menu() {
+    echo "Select your operating system:"
+    echo "1. Ubuntu 20.04/22.04"
+    echo "2. CentOS 7/8/9"
+    echo "3. Debian 11/12"
+    echo "4. Quit"
+}
+
+
+
 os_detect_and_execute() {
     os=$(lsb_release -si)
     echo "Your OS is $os"
@@ -51,15 +61,6 @@ case "$choice" in
         echo "Invalid choice."
         ;;
 esac
-
-display_menu() {
-    echo "Select your operating system:"
-    echo "1. Ubuntu 20.04/22.04"
-    echo "2. CentOS 7/8/9"
-    echo "3. Debian 11/12"
-    echo "4. Quit"
-}
-
 
 ubuntu_tasks() {
     blacklist=("example.com" "scorpiohosting.net" "scorpiohosting.com")  # Add any domains you want to blacklist here
