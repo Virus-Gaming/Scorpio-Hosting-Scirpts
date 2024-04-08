@@ -1,69 +1,7 @@
 #!/bin/bash
 
-
-display_menu() {
-    echo "Select your operating system:"
-    echo "1. Ubuntu 20.04/22.04"
-    echo "2. CentOS 7/8/9"
-    echo "3. Debian 11/12"
-    echo "4. Quit"
-}
-
-
-
-os_detect_and_execute() {
-    os=$(lsb_release -si)
-    echo "Your OS is $os"
-    read -p "Is this correct? (yes/no): " confirmation
-    case "$confirmation" in
-        [Yy]|[Yy][Ee][Ss])
-            case "$os" in
-                Ubuntu)
-                    ubuntu_tasks
-                    ;;
-                CentOS)
-                    centos_tasks
-                    ;;
-                Debian)
-                    debian_tasks
-                    ;;
-                *)
-                    echo "Unsupported operating system: $os"
-                    ;;
-            esac
-            ;;
-        *)
-            echo "Exiting..."
-            exit 0
-            ;;
-    esac
-}
-
-display_menu
-
-read -p "Enter your choice: " choice
-
-case "$choice" in
-    1)
-        ubuntu_tasks
-        ;;
-    2)
-        centos_tasks
-        ;;
-    3)
-        debian_tasks
-        ;;
-    4)
-        echo "Exiting..."
-        exit 0
-        ;;
-    *)
-        echo "Invalid choice."
-        ;;
-esac
-
 ubuntu_tasks() {
-    blacklist=("example.com" "scorpiohosting.net" "scorpiohosting.com")  # Add any domains you want to blacklist here
+    blacklist=("example.com" "scorpiohosting.net" "scorpiohosting.com")  
 
     echo "Enter your email address:"
     read email
@@ -78,7 +16,6 @@ ubuntu_tasks() {
             exit 1
         fi
     done
-
 
     # Ask the user for input
     echo "Enter the domain for the site (DO NOT START WITH https) This is for configuring ssl and nginx web server:"
@@ -98,22 +35,7 @@ ubuntu_tasks() {
     # Changing the login message
     sudo bash -c "cat <<EOF > /etc/motd
 ##########################################################################################################################################
-#
-#    /$$$$$$                                          /$$                 /$$   /$$                       /$$     /$$                    
-#   /$$__  $$                                        |__/                | $$  | $$                      | $$    |__/                    
-#  | $$  \__/  /$$$$$$$  /$$$$$$   /$$$$$$   /$$$$$$  /$$  /$$$$$$       | $$  | $$  /$$$$$$   /$$$$$$$ /$$$$$$   /$$ /$$$$$$$   /$$$$$$ 
-#  |  $$$$$$  /$$_____/ /$$__  $$ /$$__  $$ /$$__  $$| $$ /$$__  $$      | $$$$$$$$ /$$__  $$ /$$_____/|_  $$_/  | $$| $$__  $$ /$$__  $$
-#   \____  $$| $$      | $$  \ $$| $$  \__/| $$  \ $$| $$| $$  \ $$      | $$__  $$| $$  \ $$|  $$$$$$   | $$    | $$| $$  \ $$| $$  \ $$
-#   /$$  \ $$| $$      | $$  | $$| $$      | $$  | $$| $$| $$  | $$      | $$  | $$| $$  | $$ \____  $$  | $$ /$$| $$| $$  | $$| $$  | $$
-#  |  $$$$$$/|  $$$$$$$|  $$$$$$/| $$      | $$$$$$$/| $$|  $$$$$$/      | $$  | $$|  $$$$$$/ /$$$$$$$/  |  $$$$/| $$| $$  | $$|  $$$$$$$
-#   \______/  \_______/ \______/ |__/      | $$____/ |__/ \______/       |__/  |__/ \______/ |_______/    \___/  |__/|__/  |__/ \____  $$
-#                                          | $$                                                                                 /$$  \ $$
-#                                          | $$                                                                                |  $$$$$$/
-#                                          |__/                                                                                 \______/ 
-
-
-
-This is running Pterodactyl Panel with hostname and SSL Configured!
+This sserver is running Pterodactyl Panel with hostname and SSL Configured! This script was made by Scorpio Hosting.
 
 
 URL: https://$domain
@@ -126,36 +48,6 @@ Master Password: $password
 
 ##########################################################################################################################################
 EOF"
-
-    echo '#    /$$$$$$                                          /$$                 /$$   /$$                       /$$     /$$                    
-#   /$$__  $$                                        |__/                | $$  | $$                      | $$    |__/                    
-#  | $$  \__/  /$$$$$$$  /$$$$$$   /$$$$$$   /$$$$$$  /$$  /$$$$$$       | $$  | $$  /$$$$$$   /$$$$$$$ /$$$$$$   /$$ /$$$$$$$   /$$$$$$ 
-#  |  $$$$$$  /$$_____/ /$$__  $$ /$$__  $$ /$$__  $$| $$ /$$__  $$      | $$$$$$$$ /$$__  $$ /$$_____/|_  $$_/  | $$| $$__  $$ /$$__  $$
-#   \____  $$| $$      | $$  \ $$| $$  \__/| $$  \ $$| $$| $$  \ $$      | $$__  $$| $$  \ $$|  $$$$$$   | $$    | $$| $$  \ $$| $$  \ $$
-#   /$$  \ $$| $$      | $$  | $$| $$      | $$  | $$| $$| $$  | $$      | $$  | $$| $$  | $$ \____  $$  | $$ /$$| $$| $$  | $$| $$  | $$
-#  |  $$$$$$/|  $$$$$$$|  $$$$$$/| $$      | $$$$$$$/| $$|  $$$$$$/      | $$  | $$|  $$$$$$/ /$$$$$$$/  |  $$$$/| $$| $$  | $$|  $$$$$$$
-#   \______/  \_______/ \______/ |__/      | $$____/ |__/ \______/       |__/  |__/ \______/ |_______/    \___/  |__/|__/  |__/ \____  $$
-#                                          | $$                                                                                 /$$  \ $$
-#                                          | $$                                                                                |  $$$$$$/
-#                                          |__/                                                                                 \______/ '
-
-    chars="/-\|"
-
-    # Loop for 3 seconds
-    for (( i=0; i<3; i++ )); do
-        for char in ${chars}; do
-            # Print the current character
-            echo -ne "\r${char} "
-            # Wait for 0.5 seconds before printing the next character
-            sleep 0.5
-        done
-    done
-
-    # Clear the loading animation line
-    echo -ne "\r\033[K"
-
-    # Optionally, display a message indicating the end of the loading animation
-    echo "Loading completed!"
 
     # Install dependencies
     echo "Installing dependencies..."
@@ -252,7 +144,6 @@ EOF"
     sudo ufw allow 433
 
     systemctl stop nginx
-
 
     # NGINX Setup with SSL using Certbot
     echo "Setting up Webserber..."
@@ -355,7 +246,7 @@ EOF
 
     Admin Login Details:
 
-    Username: Admin
+    Username: admin
 
     Master Password: $password
 
@@ -365,26 +256,165 @@ EOF
     reboot now
 }
 
-# Main script starts here
-display_menu
+centos_tasks() {
+    # CentOS tasks
+        blacklist=("example.com" "scorpiohosting.net" "scorpiohosting.com")  
 
-read choice
+    echo "Enter your email address:"
+    read email
 
-case $choice in
-    1)
-        ubuntu_tasks
-        ;;
-    2)
-        # macOS tasks
-        ;;
-    3)
-        # Windows tasks
-        ;;
-    4)
-        echo "Exiting..."
-        exit 0
-        ;;
-    *)
-        echo "Invalid option. Please select again."
-        ;;
-esac
+    # Extract domain from email address
+    domain="${email#*@}"
+
+    # Check if domain is blacklisted
+    for blacklisted_domain in "${blacklist[@]}"; do
+        if [[ "$domain" == "$blacklisted_domain" ]]; then
+            echo "Error: The email domain you provided is blacklisted."
+            exit 1
+        fi
+    done
+
+    # Ask the user for input
+    echo "Enter the domain for the site (DO NOT START WITH https) This is for configuring ssl and nginx web server:"
+    read domain
+
+    if [[ "$domain" == http://* || "$domain" == https://* ]]; then
+        echo "Error: The domain you provided is invalid. Do not start with 'http://' or 'https://'."
+        exit 1
+    fi
+
+    # Generate a random password with 8 characters
+    password=$(openssl rand -base64 12)
+
+    # Output the generated password
+    echo "Randomly generated password: $password"
+
+    # Changing the login message
+    sudo bash -c "cat <<EOF > /etc/motd
+##########################################################################################################################################
+This sserver is running Pterodactyl Panel with hostname and SSL Configured! This script was made by Scorpio Hosting.
+
+
+URL: https://$domain
+
+Admin Login Details:
+
+Username: admin
+
+Master Password: $password
+
+##########################################################################################################################################
+EOF"
+}
+
+
+
+display_supported_os() {
+    echo "Supported operating systems:"
+    echo "1. Ubuntu 20.04 / 22.04"
+    echo "2. CentOS 8"
+    echo "3. CentOS 9"
+#echo "4. Debian 11"
+#     echo "4. Rocky Linux 8 / 9"
+#     echo "5. AlmaLinux 8 / 9"
+ }
+
+os_detect_and_execute() {
+    os=$(lsb_release -si)
+    echo "We have detected your OS is $os."
+    read -p "Is this the correct OS? (yes/no): " confirmation
+    case "$confirmation" in
+        [Yy]|[Yy][Ee][Ss])
+            case "$os" in
+                Ubuntu)
+                    ubuntu_tasks
+                    ;;
+                CentOS 8)
+                    centos_tasks8
+                    ;;
+                CentOS 9)
+                    centos_tasks9
+                    ;;
+                # Debian)
+                #     debian_tasks
+                #     ;;
+                # Rocky)
+                #     rocky_tasks
+                #     ;;
+                # AlmaLinux)
+                #     almalinux_tasks
+                #     ;;
+                *)
+                    echo "Unsupported operating system: $os"
+                    exit 1
+                    ;;
+            esac
+            ;;
+        [Nn]|[Nn][Oo])
+            display_supported_os
+            read -p "Enter the number corresponding to your OS: " choice
+            case "$choice" in
+                1)
+                    os="Ubuntu"
+                    ;;
+                2)
+                    os="CentOS 8"
+                    ;;
+                3)
+                    os="CentOS 9"
+                    ;;
+                # 3)
+                #     os="Debian"
+                #     ;;
+                # 4)
+                #     os="Rocky"
+                #     ;;
+                # 5)
+                #     os="AlmaLinux"
+                #     ;;
+                *)
+                    echo "Invalid choice."
+                    exit 1
+                    ;;
+            esac
+            read -p "You have selected $os. Are you sure you would like to continue? (yes/no): " confirm_os
+            if [[ "$confirm_os" =~ [Yy][Ee][Ss] ]]; then
+                echo "Continuing with $os tasks..."
+                case "$os" in
+                    Ubuntu)
+                        ubuntu_tasks
+                        ;;
+                    CentOS 8)
+                        centos_tasks8
+                        ;;
+                    CentOS 9)
+                        centos_tasks9
+                        ;;                       
+                    # Debian)
+                    #     debian_tasks
+                    #     ;;
+                    # Rocky)
+                    #     rocky_tasks
+                    #     ;;
+                    # AlmaLinux)
+                    #     almalinux_tasks
+                    #     ;;
+                    *)
+                        echo "Unsupported operating system: $os"
+                        exit 1
+                        ;;
+                esac
+            else
+                echo "Exiting..."
+                exit 1
+            fi
+            ;;
+        *)
+            echo "Invalid input. Please enter yes or no."
+            exit 1
+            ;;
+    esac
+}
+
+# Execute OS detection and tasks
+os_detect_and_execute
