@@ -59,7 +59,7 @@ URL: https://$domain
 
 Admin Login Details:
 
-Username: Admin
+Username: admin
 
 Master Password: $password
 
@@ -151,7 +151,7 @@ echo "Done"
 # Making user
 echo "Creating Default Admin..."
 cd /var/www/pterodactyl/
-php artisan p:user:make --username="root" --name-first="Admin" --name-last="User" --email="$email" --password=$password --admin=1
+php artisan p:user:make --username="admin" --name-first="Admin" --name-last="User" --email="$email" --password=$password --admin=1
 echo "DONE!"
 
 # Set Permissions
