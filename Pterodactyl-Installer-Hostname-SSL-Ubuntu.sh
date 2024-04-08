@@ -1,12 +1,65 @@
 #!/bin/bash
 
+
+os_detect_and_execute() {
+    os=$(lsb_release -si)
+    echo "Your OS is $os"
+    read -p "Is this correct? (yes/no): " confirmation
+    case "$confirmation" in
+        [Yy]|[Yy][Ee][Ss])
+            case "$os" in
+                Ubuntu)
+                    ubuntu_tasks
+                    ;;
+                CentOS)
+                    centos_tasks
+                    ;;
+                Debian)
+                    debian_tasks
+                    ;;
+                *)
+                    echo "Unsupported operating system: $os"
+                    ;;
+            esac
+            ;;
+        *)
+            echo "Exiting..."
+            exit 0
+            ;;
+    esac
+}
+
+display_menu
+
+read -p "Enter your choice: " choice
+
+case "$choice" in
+    1)
+        ubuntu_tasks
+        ;;
+    2)
+        centos_tasks
+        ;;
+    3)
+        debian_tasks
+        ;;
+    4)
+        echo "Exiting..."
+        exit 0
+        ;;
+    *)
+        echo "Invalid choice."
+        ;;
+esac
+
 display_menu() {
     echo "Select your operating system:"
-    echo "1. Ubuntu 22.04"
-    echo "2. macOS"
-    echo "3. Windows"
+    echo "1. Ubuntu 20.04/22.04"
+    echo "2. CentOS 7/8/9"
+    echo "3. Debian 11/12"
     echo "4. Quit"
 }
+
 
 ubuntu_tasks() {
     blacklist=("example.com" "scorpiohosting.net" "scorpiohosting.com")  # Add any domains you want to blacklist here
