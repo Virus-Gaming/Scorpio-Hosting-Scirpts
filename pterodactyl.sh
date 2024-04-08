@@ -306,7 +306,12 @@ Master Password: $password
 ##########################################################################################################################################
 EOF"
 }
+# End of Ubuntu 22.04 Installer
 
+centos8_tasks() {
+    # CentOS tasks
+    echo "CentOS tasks"
+}
 
 
 display_supported_os() {
@@ -332,8 +337,19 @@ os_detect_and_execute() {
                 CentOS 8)
                     centos_tasks8
                     ;;
-                CentOS 9)
-                    centos_tasks9
+                CentOS)
+                    version=$(lsb_release -sr | cut -d. -f1)
+                    case "$version" in
+                        8)
+                            centos8_tasks
+                            ;;
+                        9)
+                            centos9_tasks
+                            ;;
+                        *)
+                            echo "Unsupported CentOS version: $version"
+                            ;;
+                    esac
                     ;;
                 # Debian)
                 #     debian_tasks
